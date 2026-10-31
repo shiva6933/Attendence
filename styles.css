@@ -190,17 +190,9 @@ input::placeholder {
   opacity: 0.47;
 }
 
-.button-secondary {
+.login-button {
   width: 100%;
-  min-height: 42px;
-  border-color: var(--line);
-  background: #fffdfa;
-  color: #57443b;
-  font-size: 13px;
-}
-
-.button-secondary:not(:disabled):hover {
-  background: #f9f2ea;
+  margin-bottom: 13px;
 }
 
 .status-panel {
@@ -229,8 +221,8 @@ input::placeholder {
 
 .actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 11px;
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 .button-primary {

@@ -4,8 +4,7 @@
   const config = window.ATTENDANCE_CONFIG || {};
   const employeeSelect = document.getElementById("employee");
   const pinInput = document.getElementById("pin");
-  const statusButton = document.getElementById("status-button");
-  const clockInButton = document.getElementById("clock-in");
+  const loginButton = document.getElementById("login-button");
   const clockOutButton = document.getElementById("clock-out");
   const statusPanel = document.getElementById("status-panel");
   const statusText = document.getElementById("status-text");
@@ -54,8 +53,7 @@
 
   function updateButtons() {
     const ready = Boolean(employeeSelect.value && pinInput.value) && !requestInProgress;
-    statusButton.disabled = !ready;
-    clockInButton.disabled = !ready || clockedIn !== false;
+    loginButton.disabled = !ready || clockedIn === true;
     clockOutButton.disabled = !ready || clockedIn !== true;
   }
 
@@ -134,7 +132,7 @@
     updateButtons();
   }
 
-  async function checkStatus() {
+  async function login() {
     clearNotice();
     if (!employeeSelect.value || !pinInput.value) {
       showNotice("Choose your name and enter your PIN first.", false);
@@ -158,19 +156,28 @@
           }).format(new Date(data.loginTime))
           : "";
         setStatus("You are clocked in" + time + ".", true);
-      } else {
-        setStatus("You are currently clocked out.", false);
+        showNotice("You are already logged in.", true);
+        return;
       }
+
+      statusText.textContent = "Recording your login…";
+      const loginResponse = await makeRequest({
+        action: "clockIn",
+        employee: employeeSelect.value,
+        pin: pinInput.value
+      });
+      setStatus("You are clocked in.", true);
+      showNotice(loginResponse.message, true);
     } catch (error) {
       clockedIn = null;
-      setStatus("Check your name and PIN, then try again.", null);
+      setStatus("Login could not be confirmed. Please try again.", null);
       showNotice(error.message, false);
     } finally {
       setBusy(false);
     }
   }
 
-  async function recordAttendance(action) {
+  async function clockOut() {
     clearNotice();
     if (!employeeSelect.value || !pinInput.value) {
       showNotice("Choose your name and enter your PIN first.", false);
@@ -178,12 +185,10 @@
     }
 
     setBusy(true);
-    statusText.textContent = action === "clockIn"
-      ? "Recording your clock-in…"
-      : "Recording your clock-out…";
+    statusText.textContent = "Recording your clock-out…";
     try {
       const response = await makeRequest({
-        action: action,
+        action: "clockOut",
         employee: employeeSelect.value,
         pin: pinInput.value
       });
@@ -202,7 +207,7 @@
       showNotice(response.message, true);
     } catch (error) {
       clockedIn = null;
-      setStatus("Attendance was not confirmed. Check your status before retrying.", null);
+      setStatus("Attendance was not confirmed. Please try again.", null);
       showNotice(error.message, false);
     } finally {
       setBusy(false);
@@ -233,22 +238,21 @@
 
   employeeSelect.addEventListener("change", function () {
     clockedIn = null;
-    setStatus("Enter your PIN, then check your status.", null);
+    setStatus("Enter your PIN to log in or out.", null);
     clearNotice();
     updateButtons();
   });
   pinInput.addEventListener("input", function () {
     clockedIn = null;
-    setStatus("Check your status before clocking in or out.", null);
+    setStatus("Log in to start your shift, or clock out to end it.", null);
     clearNotice();
     updateButtons();
   });
-  statusButton.addEventListener("click", checkStatus);
-  clockInButton.addEventListener("click", function () {
-    recordAttendance("clockIn");
+  loginButton.addEventListener("click", function () {
+    login();
   });
   clockOutButton.addEventListener("click", function () {
-    recordAttendance("clockOut");
+    clockOut();
   });
 
   updateClock();

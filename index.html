@@ -45,8 +45,8 @@
             pattern="[0-9]{4,12}" minlength="4" maxlength="12"
             placeholder="Enter your 4–12 digit PIN" required>
 
-          <button class="button button-secondary" id="status-button" type="button" disabled>
-            Check my status
+          <button class="button button-primary login-button" id="login-button" type="button" disabled>
+            <span aria-hidden="true">↗</span> Login
           </button>
 
           <div class="status-panel" id="status-panel" role="status" aria-live="polite">
@@ -55,9 +55,6 @@
           </div>
 
           <div class="actions">
-            <button class="button button-primary" id="clock-in" type="button" disabled>
-              <span aria-hidden="true">↗</span> Clock in
-            </button>
             <button class="button button-out" id="clock-out" type="button" disabled>
               <span aria-hidden="true">↙</span> Clock out
             </button>

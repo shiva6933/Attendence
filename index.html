@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#6e3428">
+    <meta name="description" content="Waffle Castle staff attendance clock">
+    <title>Waffle Castle | Attendance</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="brand">
+        <img class="brand-logo" src="assets/waffle-castle-logo.png" alt="Waffle Castle logo">
+        <div>
+          <p class="eyebrow">WAFFLE CASTLE</p>
+          <h1>Staff attendance</h1>
+        </div>
+      </header>
+
+      <section class="clock-card" aria-labelledby="welcome-title">
+        <div class="card-heading">
+          <div>
+            <p class="eyebrow">YOUR SHIFT</p>
+            <h2 id="welcome-title">Clock in or out</h2>
+          </div>
+          <div class="live-time">
+            <span class="live-dot" aria-hidden="true"></span>
+            <time id="current-time">--:--:--</time>
+          </div>
+        </div>
+
+        <p class="today" id="today"></p>
+
+        <form id="attendance-form" autocomplete="off">
+          <label for="employee">Your name</label>
+          <select id="employee" name="employee" required disabled>
+            <option value="">Loading team…</option>
+          </select>
+
+          <label for="pin">Your PIN</label>
+          <input id="pin" name="pin" type="password" inputmode="numeric"
+            pattern="[0-9]{4,12}" minlength="4" maxlength="12"
+            placeholder="Enter your 4–12 digit PIN" required>
+
+          <button class="button button-secondary" id="status-button" type="button" disabled>
+            Check my status
+          </button>
+
+          <div class="status-panel" id="status-panel" role="status" aria-live="polite">
+            <span class="status-indicator" aria-hidden="true"></span>
+            <span id="status-text">Choose your name and enter your PIN.</span>
+          </div>
+
+          <div class="actions">
+            <button class="button button-primary" id="clock-in" type="button" disabled>
+              <span aria-hidden="true">↗</span> Clock in
+            </button>
+            <button class="button button-out" id="clock-out" type="button" disabled>
+              <span aria-hidden="true">↙</span> Clock out
+            </button>
+          </div>
+        </form>
+
+        <p class="notice" id="notice" role="alert" hidden></p>
+      </section>
+
+      <footer>
+        <p>Every shift is saved to the Waffle Castle attendance sheet.</p>
+        <p class="setup-warning" id="setup-warning" hidden>
+          Attendance is not connected yet. Ask your manager to finish setup.
+        </p>
+      </footer>
+    </main>
+
+    <iframe class="response-frame" id="response-frame" name="attendance-response"
+      title="Attendance response"></iframe>
+  </body>
+</html>

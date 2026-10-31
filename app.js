@@ -106,7 +106,13 @@
   }
 
   window.addEventListener("message", function (event) {
-    if (event.source !== responseFrame.contentWindow || !event.data) {
+    if (
+      !event.origin.endsWith(".script.googleusercontent.com") &&
+      event.origin !== "https://script.google.com"
+    ) {
+      return;
+    }
+    if (!event.data || typeof event.data.requestId !== "string") {
       return;
     }
 

@@ -19,7 +19,7 @@ The Waffle Castle logo is stored in `assets/waffle-castle-logo.png` and displaye
 5. In Apps Script, choose **Deploy → New deployment → Web app**. Set **Execute as** to **Me** and **Who has access** to **Anyone**. Deploy, authorize the requested spreadsheet access, and copy the web app URL ending in `/exec`.
 6. Put that URL in `config.js` as the `scriptUrl` value. Keep the quotes around the URL. Set the Google Sheet's time zone to the shop's local time zone; it determines the recorded attendance times.
 7. Publish the project to GitHub and enable **Settings → Pages** for the branch/folder containing `index.html`.
-8. Open the published site, select a staff member, enter their PIN, and choose **Check my status** before clocking in or out.
+8. Open the published site, select a staff member, enter their PIN, and choose **Login** to start a shift or **Clock out** to end it.
 
 The web app must be accessible to anyone so GitHub Pages can send requests without a Google sign-in. The Apps Script runs as the manager and checks each employee's PIN before changing the sheet. Use PINs that are not reused elsewhere and keep the spreadsheet private.
 

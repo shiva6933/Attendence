@@ -203,7 +203,7 @@ function findOpenShift_(sheet, employeeName) {
 function responsePage_(response) {
   var json = JSON.stringify(response).replace(/</g, "\\u003c");
   var html = "<!doctype html><html><body><script>" +
-    "window.parent.postMessage(" + json + ', "*");' +
+    "window.top.postMessage(" + json + ', "*");' +
     "</script></body></html>";
   return HtmlService.createHtmlOutput(html)
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
